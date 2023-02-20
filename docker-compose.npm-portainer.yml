@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  nginx-proxy-manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    networks:
+      - nginx-proxy-manager
+    volumes:
+      - /data/nginx-proxy-manager/data:/data
+      - /data/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    command: -H unix:///var/run/docker.sock
+    restart: unless-stopped
+    networks:
+      - nginx-proxy-manager
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /data/portainer:/data
+
+networks:
+  nginx-proxy-manager:
