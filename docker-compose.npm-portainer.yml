@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     ports:
       - '80:80'
-      - '81:81'
+      - '81:81' # can remove that after proxy to http://localhost:81 with NPM was setup
       - '443:443'
     networks:
       - nginx-proxy-manager
